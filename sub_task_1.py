@@ -1,8 +1,8 @@
 from IPython import get_ipython
-get_ipython().run_line_magic('reset', '-f') # Clear any cached modules
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
+from tensorflow.keras import layers
 import tensorflow as tf
 from tensorflow.keras.applications import ResNet50
 from tensorflow.keras.models import Model
@@ -13,10 +13,10 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dropout, Dense
 !pip install google.colab
 from google.colab import drive
-drive.mount('/content/
+drive.mount('/content/gdrive')
 data_dir = "/content/gdrive/MyDrive/Train"
 img_size = (256,256)  
-batch_size = 
+batch_size = 32
 
 datagen = ImageDataGenerator(
     rescale=1./255,        
@@ -32,7 +32,6 @@ train_data = datagen.flow_from_directory(
 )
 
 
-
 val_data = datagen.flow_from_directory(
     data_dir,
     target_size=img_size,
@@ -42,8 +41,6 @@ val_data = datagen.flow_from_directory(
 )
 
 
-from tensorflow.keras import Sequential
-from tensorflow.keras import layers
 
 model = Sequential([
     layers.Conv2D(64, (3, 3), activation='relu', input_shape=(256,256, 3)),
@@ -70,6 +67,7 @@ model.fit(
     epochs=2,
     validation_data=val_data,
 )
+
 
 #-------------------------------------------------------------------------------------#
 
